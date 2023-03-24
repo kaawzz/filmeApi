@@ -25,5 +25,7 @@ class Filme{
         this.elenco=elenco;
         this.classificacao=classificacao;
         this.avaliacao=avaliacao;
+        this.btnDetalhes=null;
     }
 }
+
