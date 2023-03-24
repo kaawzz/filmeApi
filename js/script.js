@@ -1,5 +1,6 @@
 let inputBuscarFilme = document.querySelector("#input-buscar-filme");
 let btnBuscarFilme = document.querySelector("#btn-buscar-filme");
+let listaFilmes = document.querySelector("#lista-filmes");
 
 btnBuscarFilme.onclick = () => {
     if(inputBuscarFilme.value.length > 0){
@@ -17,42 +18,6 @@ btnBuscarFilme.onclick = () => {
         })
     }
     return false;
-}
-
-getCard = async () => {
-    let card = document.createElement("div");
-    card.setAttribute("class","card");
-    let imgCartaz = document.createElement("img");
-    imgCartaz.setAttribute("class","card-img-topz");
-    imgCartaz.setAttribute("src",this.cartaz);
-    let cardBody = document.createElement("div");
-    cardBody.setAttribute("class","card-body");
-    let hCardTitle = document.createElement("h5");
-    hCardTitle.setAttribute("class","card-title");
-    let divDetalhes = document.createElement("div");
-    divDetalhes.setAttribute("style","display:flex; justify-content:space-aroud;");
-    let divGenero = document.createElement("div");
-    divGenero.setAttribute("style","flex-grow:1;");
-    let divAnoProducao = document.createElement("div");
-    divAnoProducao.setAttribute("style","flex-grow:1");
-    let divClassificacao = document.createElement("div");
-    divClassificacao.setAttribute("style","flex-grow:1");
-    hCardTitle.appendChild(document.createTextNode(this.titulo));
-    divGenero.appendChild(document.createTextNode(this.genero));
-    divAnoProducao.appendChild(document.createTextNode(this.ano));
-    divClassificacao.appendChild(document.createTextNode(this.classificacao));
-    divDetalhes.appendChild(divGenero);
-    divDetalhes.appendChild(divAnoProducao);
-    divDetalhes.appendChild(divClassificacao);
-    card.appendChild(imgCartaz);
-    card.appendChild(cardBody);
-    cardBody.appendChild(hCardTitle);
-    cardBody.appendChild(divDetalhes);
-
-    this.setBtnDetalhes();
-    cardBody.appendChild(this.getBtnDetalhes());
-
-    return  card;
 }
 
 btnBuscarFilme.onclick = async () => {
@@ -86,32 +51,46 @@ btnBuscarFilme.onclick = async () => {
 
 let listarFilmes = async (filmes) => {
     let listarFilmes = await document.querySelector("#lista-filmes");
+    listaFilmes.style.display = "flex";
     listarFilmes.innerHTML = "";
+    document.querySelector("#mostrar-filme").innerHTML = "";
+    document.querySelector("#mostrar-filme").style.display = "none";
     console.log(listaFilmes);
     if(filmes.length > 0) {
         filmes.forEach(async(filme) => {
+            console.log(filme);
             listarFilmes.appendChild(await filme.getCard());
+            filme.getBtnDetalhes().onclick = () =>{
+                btnDetalhesFilme(filme.id);
+            }
         });
     }
 }
 
 //parte 3
-setBtnDetalhes = () => {
-    this.btnDetalhes = document.createElement('button');
-    this.btnDetalhes.appendChild(document.createTextNode("Detalhes"));
-    this.btnDetalhes.setAttribute("id", this.id);
-    this.btnDetalhes.setAttribute("class", "btnDetalhesFilme");
-}
-
-getBtnDetalhes=()=>{
-    return this.btnDetalhes
-}
 
 let btnDetalhesFilme = async (id)=>{
     fetch("http://www.omdbapi.com/?apikey=f6cacea2&s="+id)
     .then((resp)=> resp.json())
     .then((resp)=> {
+        console.log(resp);
+        let filme = new Filme(
+            resp.imbID,
+            resp.Title,
+            resp.Year,
+            resp.Genre.split(","),
+            resp.Runtime,
+            resp.Poster,
+            resp.Plot,
+            resp.Director,
+            resp.Actors.split(","),
+            resp.Awards,
+            resp.imbRating
+        )
+        document.querySelector("#mostrar-filme").appendChild(filme.getDetalhesFilme());
+        document.querySelector("#lista-filmes").style.display = "none";
+        document.querySelector("#mostrar-filmes").style.display = "flex";
         
-    })
+    });
 
 }
