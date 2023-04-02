@@ -1,17 +1,3 @@
-class Ator{
-    constructor(id, nome){
-        this.nome=nome;
-        this.id=id;
-    }
-}
-
-class Diretor{
-    constructor(id, nome){
-        this.nome=nome;
-        this.id=id;
-    }
-}
-
 class Filme{
     constructor(id, titulo, ano, genero, duracao, cartaz, sinopse, direcao, elenco, classificacao, avaliacao){
         this.id=id;
@@ -112,11 +98,11 @@ class Filme{
         filmGenero.appendChild(document.createTextNode("Gênero: "+this.genero));
         filmDura.appendChild(document.createTextNode( "Duração: "+this.duracao));
         filmAno.appendChild(document.createTextNode("Ano de lançamento: "+this.ano));
-        filmRank.appendChild(document.createTextNode("Premios: "+this.classi));
-        filmResumo.appendChild(document.createTextNode("Resumo: "+this.sino));
+        filmRank.appendChild(document.createTextNode("Premios: "+this.classificacao));
+        filmResumo.appendChild(document.createTextNode("Resumo: "+this.sinopse));
         filmAva.appendChild(document.createTextNode("Avaliação: "+this.ranking));
         filmElenco.appendChild(document.createTextNode("Diretor: "+this.direcao));
-        filmAtor.appendChild(document.createTextNode("Atores: "+this.atores));
+        filmAtor.appendChild(document.createTextNode("Atores: "+this.elenco));
     
         cardDetalhe.appendChild(cardImg);
         cardDetalhe.appendChild(divSimDetalhes)
@@ -150,5 +136,6 @@ class Filme{
     }
 
 }
+
 
 

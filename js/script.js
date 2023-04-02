@@ -1,5 +1,6 @@
 let inputBuscarFilme = document.querySelector("#input-buscar-filme");
 let btnBuscarFilme = document.querySelector("#btn-buscar-filme");
+
 btnBuscarFilme.onclick =  async() => {
     if(inputBuscarFilme.value.length > 0){
         let filmes = new Array();
@@ -29,7 +30,7 @@ btnBuscarFilme.onclick =  async() => {
     return false;
 }
 
-    let listarFilmes = async (filmes) => {
+let listarFilmes = async (filmes) => {
     let listaFilmes = await document.querySelector("#lista-filmes");
     listaFilmes.style.display = "flex";
     listaFilmes.innerHTML = "";
@@ -46,8 +47,6 @@ btnBuscarFilme.onclick =  async() => {
         });
     }
 }
-
-//parte 3
 
 let detalhesFilme = async (id)=>{
     fetch("http://www.omdbapi.com/?apikey=f6cacea2&i="+id)
@@ -79,32 +78,26 @@ let detalhesFilme = async (id)=>{
        
         document.querySelector("#lista-filmes").style.display = "none";
         document.querySelector("#mostrar-filme").style.display = "flex";
-        
     });
 
 }
 
-let salvarFilme = () =>{
-    document.querySelector("#btnSalvar").onclick = () =>{
-        salvarFilme(filme);
-    }
-
+let salvarFilme = (filme) =>{
     let filmesString = localStorage.getItem('filmesFavoritos');
-var filmes = JSON.parse(filmesString);
+    let filmes = JSON.parse(filmesString);
 
-filmes.push(filme);
+    filmes.push(filme);
 
-filmes = JSON.stringify(filmes);
-localStorage.setItem('filmesFavoritos', filmes);
+    filmes = JSON.stringify(filmes);
+    localStorage.setItem('filmesFavoritos', filmes);
 }
 
-//parte 4
 let listarFavoritos = () => {
-
 let filmesFavoritos = localStorage.getItem('filmesFavoritos');
 filmesFavoritos = JSON.parse(filmesFavoritos);
 
   let filmesArray = new Array();
+  let filmes = [];
   filmesFavoritos.forEach((item) =>{
     let filme = new Filme(
         item.id,
